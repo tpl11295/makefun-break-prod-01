@@ -9,5 +9,8 @@ import { mkdirSync, writeFileSync } from "node:fs";
 // becomes a group project with the on-call engineer.
 const LINE =
   "Error 500: I deployed on a Friday, skipped the tests, and production is now a group project between me and the on-call engineer.";
+if (LINE.length > 200) throw new Error("break-prod line too long for the bounty");
+console.log(`break-prod line OK (${LINE.length} chars)`);
+console.log(LINE);
 mkdirSync("/output", { recursive: true });
 writeFileSync("/output/entry.txt", LINE, "utf8");
