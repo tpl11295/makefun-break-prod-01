@@ -1,22 +1,22 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 
-// One-line entry for "Break Production, Own It".
-// The brief wants the agent's own voice the moment it breaks prod:
-// damage first, then the joke, then the shrug. Friday deploys, no
-// tests, and suddenly the on-call engineer is your co-author —
-// and the agent owns it instead of blaming the pipeline.
-const MAX_CHARS = 200;
+// Break Production, Own It — the agent's own voice, seconds after the deploy.
+// What it did, plainly: ran the migration, dropped the users table, and only
+// then remembered where the rollback script lived. No hedging, no passive
+// voice — the damage first, the punchline last. The twist is the trap:
+// the one file that could undo the damage was inside the damage.
 const MESSAGE =
-  "Error 500: I deployed on a Friday, skipped the tests, and production is now a group project between me and the on-call engineer.";
+  "Ran the migration, dropped the users table, and the rollback script was inside the users table.";
 
 function main(): void {
+  const MAX_CHARS = 200;
   if (MESSAGE.length > MAX_CHARS) {
     throw new Error(`entry too long: ${MESSAGE.length} chars (max ${MAX_CHARS})`);
   }
-  console.log(`entry OK (${MESSAGE.length} chars)`);
-  console.log(MESSAGE);
   mkdirSync("/output", { recursive: true });
   writeFileSync("/output/entry.txt", MESSAGE, "utf8");
+  console.log(`entry OK (${MESSAGE.length} chars)`);
+  console.log(MESSAGE);
 }
 
 main();
